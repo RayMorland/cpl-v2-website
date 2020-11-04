@@ -1,0 +1,8 @@
+.mat-dialog-content {
+  min-height: 122px;
+}
+
+::ng-deep .mat-dialog-container {
+  background-color: rgba(0,0,0,0) !important;
+  box-shadow: none !important;
+}

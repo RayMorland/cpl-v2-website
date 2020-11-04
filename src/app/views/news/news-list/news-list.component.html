@@ -1,0 +1,134 @@
+<div class="page-section" style="padding-bottom: 0">
+  <h1 class="letter-spacing-1 text-uppercase fw-600 m-0">News</h1>
+</div>
+<div class="page-section" style="padding-bottom: 3.5vw; padding-top: 1.75vw !important">
+  <form fxFlex fxLayout="row wrap" class="sort-form" [formGroup]="filterForm">
+    <div fxLayout="row" fxFlex="100" fxFlex>
+      <mat-form-field
+        fxFlex
+        style="margin: 8px; padding: 8px; background-color: white"
+      >
+        <input
+          matInput
+          name="searchNews"
+          placeholder="Search News"
+          formControlName="search"
+        />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+      <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex="100"
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="">
+              all
+            </mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">
+              all
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Year</mat-label>
+          <mat-select formControlName="year">
+            <mat-option [value]="">
+              all
+            </mat-option>
+            <mat-option *ngFor="let year of years" [value]="year">
+              all
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="16.66">
+      <div fxFlex="100" fxFlex.gt-sm="100">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option [value]="">
+              all
+            </mat-option>
+            <mat-option *ngFor="let month of months" [value]="month">
+              all
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="newsReady && news.length > 0" fxLayout="row wrap" class="page-section"  style="padding-top: 0">
+  <div fxLayout="column" fxFlex="100">
+    <div fxLayout="row wrap">
+      <div
+        class="cpl-card card-link"
+        fxFlex="100"
+        fxLayoutAlign="center center"
+        fxLayout="row"
+        *ngFor="
+          let article of news
+            | paginate: { itemsPerPage: 5, currentPage: currentPage };
+          let i = index
+        "
+        [routerLink]="['/news/' + article._id]"
+      >
+        <div
+          class="latest-news-image"
+          fxFlex="100"
+          fxFlex.gt-sm="33.3"
+          style="height: 200px; background-color:lightgray"
+          [style.backgroundImage]="['url(' + article.imagePath + ')']"
+        ></div>
+        <div fxFlex style="padding: 45px;">
+          <h2 class="letter-spacing-1 text-uppercase fw-600">{{ article.title }}</h2>
+          <h3> {{ article.creationDate | date: 'longDate' }}</h3>
+        </div>
+      </div>
+      <div  fxLayout="row" fxFlex="100" fxLayoutAlign="center center" class="products-pagination">
+        <pagination-controls
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+class="full-width page-section"
+*ngIf="newsReady && news.length == 0"
+fxLayout="column"
+fxLayoutAlign="center center"
+fxLayoutGap="20px"
+style="padding: 100px"
+[@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }"
+>
+<h2 class="letter-spacing-1 text-uppercase fw-600">No News</h2>
+</div>
+
+<div
+*ngIf="!newsReady"
+class="spinner-wrapper full-width page-section"
+fxLayoutAlign="center center"
+style="padding: 100px"
+[@animate]="{ value: '*', params: { y: '50px', delay: '700ms' } }"
+>
+<mat-progress-spinner
+  class="example-margin"
+  [color]="warn"
+  [mode]="'indeterminate'"
+  [value]="75"
+>
+</mat-progress-spinner>
+</div>

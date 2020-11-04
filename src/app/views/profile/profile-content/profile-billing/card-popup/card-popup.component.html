@@ -1,0 +1,108 @@
+<h2 style="margin-bottom: 25px">Update Card</h2>
+<form [formGroup]="cardForm" (ngSubmit)="submit()" class="sort-form">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-xs="100" class="p-0">
+      <div formGroupName="name" fxFlex="100" fxFlex.gt-xs="100" class="p-0">
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                name="first"
+                formControlName="first"
+                placeholder="First Name"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="50" class="p-0">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                name="last"
+                formControlName="last"
+                placeholder="Last Name"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div formGroupName="address"></div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-xs="100" class="p-0">
+      <div
+        class="cell example example2"
+        id="example-2"
+        style="margin: 0px -12px; margin-bottom: 8px"
+      >
+        <!-- Card Element -->
+        <div class="row">
+          <div class="field">
+            <div
+              id="example2-card-number"
+              #cardNumber
+              class="input empty"
+            ></div>
+            <label for="example2-card-number">Card number</label>
+            <div class="baseline"></div>
+          </div>
+          <div id="card-number-errors" role="alert"></div>
+        </div>
+        <div class="row">
+          <div class="field half-width">
+            <div
+              id="example2-card-expiry"
+              #cardExpiry
+              class="input empty"
+            ></div>
+            <label
+              for="example2-card-expiry"
+              data-tid="elements_examples.form.card_expiry_label"
+              >Expiration</label
+            >
+            <div class="baseline"></div>
+            <div id="card-expiry-errors" role="alert"></div>
+          </div>
+          <div class="field half-width">
+            <div id="example2-card-cvc" #cardCvc class="input empty"></div>
+            <label
+              for="example2-card-cvc"
+              data-tid="elements_examples.form.card_cvc_label"
+              >CVC</label
+            >
+            <div class="baseline"></div>
+            <div id="card-cvc-errors" role="alert"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="100" class="mt-1">
+      <button
+        *ngIf="!data.isNew"
+        mat-button
+        color="primary"
+        [disabled]="cardForm.invalid"
+      >
+        {{ "UPDATE" }}
+      </button>
+      <button
+        *ngIf="data.isNew"
+        mat-button
+        color="primary"
+        [disabled]="cardForm.invalid"
+      >
+        {{ "SAVE" }}
+      </button>
+      <span fxFlex></span>
+      <button
+        mat-button
+        color="warn"
+        type="button"
+        (click)="dialogRef.close(false)"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</form>

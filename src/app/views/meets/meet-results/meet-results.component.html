@@ -1,0 +1,133 @@
+<h2 class="letter-spacing-1 text-uppercase fw-600" style="margin-bottom: 3.5vw; font-size: 3rem">Results</h2>
+
+<div class="cpl-card" *ngIf="resultsReady">
+  <div class="">
+    <ngx-datatable
+    class="material ml-0 mr-0 full-width"
+    [rows]="results"
+    [columnMode]="ColumnMode.flex"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [scrollbarH]="true"
+    [limit]="10"
+    [rowHeight]="auto"
+  >
+    <ngx-datatable-column name="Name" [flexGrow]="2">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row?.memberName }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Testing" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row?.testing }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Category" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row?.category }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Divisions" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div
+          *ngFor="let division of row?.divisions"
+          style="height: 25px"
+        >
+          {{ division.name }}
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Event" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div *ngFor="let event of row?.events" style="height: 25px">
+          {{ event }}
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Lifts" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div *ngFor="let lift of row?.lifts" style="height: 25px">
+          {{ lift.liftType }}
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Attempt 1" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div
+          *ngFor="let attempt of row?.lifts"
+          style="height: 25px"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          {{ attempt?.attempt1.weight }}
+          <span fxFlex="5px"></span>
+          <mat-icon *ngIf="attempt.attempt1.success">done</mat-icon>
+          <mat-icon *ngIf="!attempt.attempt1.success"
+            >close</mat-icon
+          >
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Attempt 2" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div
+          *ngFor="let attempt of row?.lifts"
+          style="height: 25px"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <div>
+            {{ attempt?.attempt2.weight }}
+            <span fxFlex="5px"></span>
+            <mat-icon *ngIf="attempt.attempt2.success"
+              >done</mat-icon
+            >
+            <mat-icon *ngIf="!attempt.attempt2.success"
+              >close</mat-icon
+            >
+          </div>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Attempt 3" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div
+          *ngFor="let attempt of row?.lifts"
+          style="height: 25px"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <div>
+            {{ attempt?.attempt3.weight }}
+            <span fxFlex="5px"></span>
+            <mat-icon *ngIf="attempt.attempt3.success"
+              >done</mat-icon
+            >
+            <mat-icon *ngIf="!attempt.attempt3.success"
+              >close</mat-icon
+            >
+          </div>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Record" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div *ngFor="let lift of row?.lifts" style="height: 25px">
+          <div>
+            <mat-icon
+              *ngIf="lift?.singleLiftRecordId?.currentRecord"
+              [ngStyle]="{ color: 'rgb(255, 204,0)' }"
+              >emoji_events</mat-icon
+            >
+          </div>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Total" [flexGrow]="1">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.total }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+  </div>
+</div>

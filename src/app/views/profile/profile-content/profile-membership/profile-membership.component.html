@@ -1,0 +1,255 @@
+<div *ngIf="memberReady" fxLayout="row wrap">
+  <div
+    fxFlex="50"
+    fxFlex.gt-sm="25"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+  >
+    <mat-card class="profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>
+          <small class="text-muted" >Member Since</small>
+          <span fxFlex></span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">
+          <b>{{ member.creationDate | date: "longDate" }}</b>
+        </h3>
+        <!-- <small class="text-muted">Monthly</small> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div
+    fxFlex="50"
+    fxFlex.gt-sm="25"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '400ms' } }"
+  >
+    <mat-card class="profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>
+          <small class="text-muted">Status</small>
+          <span fxFlex></span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">
+          <!-- <b>{{ membership.status }}</b> -->
+          <b>Active</b>
+        </h3>
+        <!-- <small class="text-muted">Monthly</small> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div
+    fxFlex="50"
+    fxFlex.gt-sm="25"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '500ms' } }"
+  >
+    <mat-card class="profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>
+          <small class="text-muted">Membership</small>
+          <span fxFlex></span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">
+          <b>{{ membership.name }}</b>
+        </h3>
+        <h3 class="m-0 font-normal">
+          <b>Plan {{ member.membership.planId.name }}</b>
+        </h3>
+        <!-- <small class="text-muted">Monthly</small> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div
+    fxFlex="50"
+    fxFlex.gt-sm="25"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '600ms' } }"
+  >
+    <mat-card class="profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>
+          <small class="text-muted"><b>Renewal Date</b></small>
+          <span fxFlex></span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">
+          <!-- <b>{{ member.membership.current_period_end | date: "longDate" }}</b> -->
+          <b>{{ member.creationDate | date: "longDate" }}</b>
+        </h3>
+        <!-- <small class="text-muted">Monthly</small> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div *ngIf="memberReady" fxLayout="row wrap">
+  <div fxLayout="column wrap" fxFlex="100" fxFlex.gt-sm="50">
+    <mat-card
+      class="profile-mat-card"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '700ms' } }"
+    >
+      <mat-card-header>
+        <mat-card-title class="mb-1">My Membership</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <h3><b>Plan:</b> {{ member.membership.planId.name }}</h3>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <h3><b>Member Since:</b> {{ member.creationDate | date:'longDate'}}</h3>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <h3>
+              <b>Renewal Date:</b> {{ member.membership.current_period_end }}
+            </h3>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <h3>
+              <b>Automatic Renewal:</b> {{ member.membership.automaticRenewal }}
+            </h3>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card
+      class="profile-mat-card"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }"
+    >
+      <mat-card-header>
+        <mat-card-title>Automatic Renewal</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Turn automatic renewal on so that you don't have to worry about your
+          membership. You will be charged automatically for renewal after your
+          current period is up. By turning automatic renewal off your membership
+          will expire and you will have to manually renew after your membership
+          expires.
+        </p>
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <mat-slide-toggle
+              class="example-margin"
+              [(ngModel)]="checked"
+              [disabled]="false"
+              (click)="toggleChange($event); (false)"
+            >
+              <span *ngIf="toggleOn">Turn Automatic Renewal Off</span>
+              <span *ngIf="!toggleOn">Turn Automatic Renewal On</span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card
+      class="profile-mat-card"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '900ms' } }"
+    >
+      <mat-card-header>
+        <mat-card-title>Renew Membership</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Renew your membership manually with automatic renewal switched off.
+        </p>
+        <button mat-button (click)="openRenewPopup()">Renew Membership</button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card
+      class="profile-mat-card"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '1000ms' } }"
+    >
+      <mat-card-header>
+        <mat-card-title>Cancel Membership</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          By cancelling your membership you will still be able to use your
+          account until your current membership expires.
+        </p>
+        <button mat-button (click)="openCancelPopup()">
+          Cancel Membership
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxLayout="column wrap" fxFlex="100" fxFlex.gt-sm="50">
+    <!-- <mat-card
+      class=""
+      id="membership-options"
+      style="background-color: black; color: white;"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '1100ms' } }"
+    >
+      <div id="options-filter"></div>
+      <mat-card-content style="position: relative; z-index: 2;">
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+          <div fxLayout="column" fxflex="100" fxLayoutAlign="center center">
+            <h1 class="text-uppercase"><b>View Membership Options</b></h1>
+            <button
+              mat-button
+              [routerLink]="['/membership/list']"
+              routerLinkActive="router-link-active"
+            >
+              View Options
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+    <mat-card
+      class="mb-1 profile-mat-card"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '1200ms' } }"
+    >
+      <!-- <mat-card-title>Membership Info</mat-card-title> -->
+      <mat-card-content style="padding: 25px">
+        <div fxLayout="column" fxLayoutAlign="space-between center">
+          <small class="text-muted text-uppercase" style="margin-bottom: 25px">Current Membership</small>
+          <div fxFlex>
+            <h1
+              class="text-uppercase text-center"
+              style="font-size: 55px; font-weight: 700"
+            >
+              <b>{{ member.membership.membershipId.name }}</b>
+            </h1>
+          </div>
+          <div fxFlex style="font-size: 60px; margin: 30px 0px">
+            <mat-icon
+              style="font-size: 100px; height: 100px; width: 100px; margin: 0"
+              >card_membership</mat-icon
+            >
+          </div>
+          <div fxFlex>
+            <h3 *ngFor="let attribute of membership.attributes">
+              <b>{{ attribute }}</b>
+            </h3>
+          </div>
+          <div fxFlex style="margin: 30px 0px">
+            <h1>
+              <b
+                ><span style="font-size: 55px">${{
+                  member.membership.planId.amount
+                }}</span>
+                / {{ member.membership.planId.interval }}</b
+              >
+            </h1>
+          </div>
+          <div fxFlex>
+            <!-- <button mat-button style="margin-top: 30px">
+              View All Benefits
+            </button> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

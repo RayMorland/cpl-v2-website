@@ -1,0 +1,200 @@
+<div class="seciton-left">
+  <div
+    class="section-left-content"
+    style="margin-left: 10vw; margin-top: 10vh"
+  >
+    <h2 class="mb-24">Don't have an account?</h2>
+    <p class="mb-24">Compete with the very best and join the CPL today!</p>
+    <button mat-button color="accent" [routerLink]="'/register'">
+      Sign Up
+    </button>
+  </div>
+</div>
+
+<div
+  fxLayout="column"
+  fxFlex.lt-sm="100"
+  fxFlex="40"
+  class="form-holder height-100vh mat-elevation-z4"
+  [@animate]="{ value: '*', params: { x: '500px', delay: '100ms', duration:'400ms' } }"
+>
+  <div
+    fxFlex="30"
+    class="mb-48"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    style="margin-top: 5vh"
+  >
+    <img height="100%" src="assets/images/cpl-logo.png" alt="" />
+  </div>
+  <!-- Signin form -->
+  <div fxFlex="60" fxLayout="column" *ngIf="showSigninForm">
+    <form
+      [formGroup]="signinForm"
+      class="sort-form"
+      fxLayout="column"
+      fxFlex="100"
+      fxLayoutAlign="space-between center"
+      (ngSubmit)="signIn()"
+      style="padding: 20px;"
+    >
+      <!-- headline -->
+      <div class="form-headline text-center">
+        <h2 class="">Sign in to your account</h2>
+      </div>
+
+      <div  class="full-width">
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            name="password"
+            placeholder=""
+          />
+        </mat-form-field>
+      </div>
+
+      <a class="link" (click)="resetPassword()">Forgot your password?</a>
+
+      <button mat-button color="primary" type="button" (click)="signIn()">
+        Sign in
+      </button>
+    </form>
+  </div>
+  <!-- Get Verification Code -->
+  <div fxFlex="60" fxLayout="column" *ngIf="showGetVerificationCode">
+    <form
+    [formGroup]="forgottenEmailForm"
+    class="sort-form"
+    fxLayout="column"
+    fxFlex="100"
+    fxLayoutAlign="space-between center"
+    style="padding: 20px;"
+  >
+    <!-- headline -->
+    <div class="form-headline text-center">
+      <h2 class="">Sign in to your account</h2>
+    </div>
+
+    <div  class="full-width">
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          name="email"
+          placeholder=""
+        />
+      </mat-form-field>
+    </div>
+
+    <button mat-button color="primary" type="button" (click)="getVerificationCode()">
+      Get Code
+    </button>
+  </form>
+  </div>
+  <!-- Change Password -->
+  <div  fxFlex="60" fxLayout="column" *ngIf="showChangePasswordForm">
+    <form
+      [formGroup]="changePasswordForm"
+      class="signup-form sort-form"
+      fxLayout="column"
+      (ngSubmit)="updatePassword()"
+    >
+      <!-- headline -->
+      <div class="form-headline text-center mb-32">
+        <h1 class="font-weight-light">Change password</h1>
+      </div>
+
+      <mat-form-field class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="newPassword"
+          type="password"
+          name="password"
+          placeholder=""
+        />
+      </mat-form-field>
+
+      <button mat-button color="primary" type="submit">Change Password</button>
+    </form>
+  </div>
+    <!-- Change Forgotten Password -->
+    <div  fxFlex="60" fxLayout="column" *ngIf="showForgottenPasswordForm">
+      <form
+        [formGroup]="forgottenPasswordForm"
+        class="signup-form sort-form"
+        fxLayout="column"
+        (ngSubmit)="updatePassword()"
+      >
+        <!-- headline -->
+        <div class="form-headline text-center mb-32">
+          <h1 class="font-weight-light">Change password</h1>
+        </div>
+  
+        <mat-form-field class="full-width">
+          <mat-label>Verification Code</mat-label>
+          <input
+            matInput
+            formControlName="code"
+            type="text"
+            name="code"
+            placeholder=""
+          />
+        </mat-form-field>
+  
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="newPassword"
+            type="password"
+            name="password"
+            placeholder=""
+          />
+        </mat-form-field>
+        <a class="link" (click)="resendForgotPasswordCode()">Resend Code</a>
+        <button mat-button color="primary" type="submit">Change Password</button>
+      </form>
+    </div>
+  <!-- Confirm User Form -->
+  <div  fxFlex="60" fxLayout="column" *ngIf="showConfirmUser">
+    <form
+      [formGroup]="confirmUserForm"
+      class="signup-form sort-form"
+      fxLayout="column"
+      (ngSubmit)="confirmUser()"
+    >
+      <mat-form-field class="full-width">
+        <mat-label>Verification Code</mat-label>
+        <input
+          matInput
+          formControlName="code"
+          type="text"
+          name="code"
+          placeholder="Verification Code"
+        />
+      </mat-form-field>
+      <button mat-button type="submit">Submit</button>
+    </form>
+    <button (click)="resendCode()">Resend Code</button>
+  </div>
+  <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+    <a class="link" routerLink="/">Back to CPL site</a>
+  </div>
+</div>

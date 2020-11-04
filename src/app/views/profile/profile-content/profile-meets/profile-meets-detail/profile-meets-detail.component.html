@@ -1,0 +1,187 @@
+<div *ngIf="meetReady">
+  <!-- <div fxLayout="row" fxLayout.lt-sm="column" class="button-row">
+    <button mat-button [routerLink]="['/profile/meets/']">
+      <mat-icon>arrow_back</mat-icon> Back to My Meets
+    </button>
+    <span fxFlex="10px"></span>
+    <button mat-button [routerLink]="['/meets/' + meetId]">
+      View Meet Info
+    </button>
+  </div> -->
+  <!-- Meet Info -->
+  <div
+    fxLayout="row wrap"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '100ms' } }"
+    style
+  >
+    <div fxFlex="100" fxFlex.gt-sm="100" fxLayout="column">
+      <mat-card class="profile-mat-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{ meet.title }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column">
+            <div
+              class="full-width"
+              fxLayout="row wrap"
+              fxLayoutAlign="space-between start"
+            >
+              <!-- <div> -->
+              <h3>
+                {{ meet.venue.location.address.city }},
+                {{ meet.venue.location.address.province }}
+              </h3>
+              <h3>
+                {{ meet.dates[0].start | date: "MMM dd" }} -
+                {{ meet.dates[0].end | date: "MMM dd" }}
+              </h3>
+              <!-- </div> -->
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="full-width">
+            <a
+              class="link"
+              style="font-size: 20px"
+              [routerLink]="['/meets/' + meet._id]"
+              >View Meet</a
+            >
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <!-- Registration Info -->
+  <div
+    fxLayout="row wrap"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '200ms' } }"
+    style
+  >
+    <div fxFlex="100" fxFlex.gt-sm="100" fxLayout="column">
+      <mat-card class="profile-mat-card">
+        <mat-card-header>
+          <mat-card-title> My Registration Info </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column">
+            <div class="full-width" fxLayout="row wrap">
+              <div fxFlex="100" style="margin-bottom: 20px">
+                <h3>
+                  <b
+                    >Registered On:
+                    {{ registration.creationDate | date: "longDate" }}</b
+                  >
+                </h3>
+              </div>
+              <div fxFlex="50" class="pb-1">
+                <h3><b>Division</b></h3>
+                <div
+                  *ngFor="
+                    let division of registration.competitionInfo.divisions
+                  "
+                >
+                  {{ division.name }} - {{ division.ageClass.min }} {{ division.ageClass.max }}
+                </div>
+              </div>
+              <div fxFlex="50" class="pb-1">
+                <h3><b>Weight Class</b></h3>
+                <div>
+                  {{ registration.competitionInfo.weightClass }}
+                </div>
+              </div>
+              <div fxFlex="50" class="pb-1">
+                <h3><b>Category</b></h3>
+                <div>
+                  {{ registration.competitionInfo.category }}
+                </div>
+              </div>
+              <div fxFlex="100" class="pb-1">
+                <h3><b>Lifts</b></h3>
+                <div
+                  *ngFor="let lift of registration.competitionInfo.movements"
+                >
+                  <mat-list>
+                    <mat-list-item>
+                      {{ lift.type }}
+                    </mat-list-item>
+                    <mat-list-item>
+                      Opening Weight: {{ lift.openingWeight }}
+                    </mat-list-item>
+                    <mat-list-item>
+                      Rack Height: {{ lift.rackHeight }}
+                    </mat-list-item>
+                    <mat-list-item>
+                      Rack Position: {{ lift.rackPosition }}
+                    </mat-list-item>
+                    <mat-list-item>
+                      Safety Height: {{ lift.safetyHeight }}
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
+              <div fxFlex="50" class="pb-1">
+                <h3><b>Merchandise</b></h3>
+                <div *ngIf="registration.fees.merchandise.length == 0">
+                  No Merchandise Selected
+                </div>
+                <div *ngIf="registration.fees.merchandise.length > 0">
+                  <div *ngFor="let merch of registration.fees.merchandise">
+                    Item: {{ merch.item }}
+                    Price: {{ merch.price }}
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="50" class="pb-1">
+                <h3><b>Fees</b></h3>
+                <div>
+                  Total: {{ registration.fees.total }}
+                  Fees Paid: {{ registration.fees.feesPaid }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="full-width">
+            <a download [href]="registration.regLink" target="_blank" mat-button>
+              <mat-icon>get_app</mat-icon> Download Registration
+            </a>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <!-- Results -->
+  <div
+    fxLayout="row wrap"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+    style
+  >
+    <div fxFlex="100" fxFlex.gt-sm="100" fxLayout="column">
+      <mat-card class="profile-mat-card">
+        <mat-card-header>
+          <mat-card-title> My Results </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column">
+            <div *ngIf="!result" fxLayout="row wrap">
+              <h3>Results to be shown here after uploaded</h3>
+            </div>
+            <div *ngIf="result" fxLayout="row wrap">
+              <div class="full-width">Uploaded On: {{ result.creationDate | date:'longDate' }}</div>
+              <div class="full-width">
+                <h3>Lifts</h3>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a class="link" [routerLink]="['/meets/' + meet._id + '/results']">View All Meet Results</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

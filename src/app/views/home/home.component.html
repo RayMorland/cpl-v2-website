@@ -1,0 +1,407 @@
+<div *ngIf="pageReady">
+  <div fxLayout="column wrap" fxLayoutAlign="start center" class="masthead">
+    <div
+      *ngIf="news.length <= 0"
+      fxFlex="80"
+      style="width: 100%;"
+      id="masthead-temporary-image"
+    >
+      <div class="carousel-image-filter"></div>
+    </div>
+    <div
+      class="carousel"
+      fxLayout="row wrap"
+      fxLayoutAlign="start center"
+      fxFlex="88"
+      style="width: 100%;"
+      *ngIf="news.length > 0"
+    >
+      <div
+        class="carousel-wrapper"
+        *ngFor="let article of news | slice: 0:4; let i = index; let l = count"
+      >
+        <div
+          class="carousel-item"
+          fxLayout="row wrap"
+          fxLayoutAlign="start flex-end"
+          *ngIf="newsCarouselIndex == i"
+          [@inOutAnimation]
+        >
+          <div
+            class="carousel-image"
+            [style.backgroundImage]="'url(' + article.imagePath + ')'"
+          ></div>
+          <div class="carousel-image-filter"></div>
+          <a
+            fxFlex="100"
+            class="carousel-info"
+            [routerLink]="['/news/' + article._id]"
+          >
+            <h1 class="letter-spacing-1 text-uppercase fw-600">
+              {{ article.title }}
+            </h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </a>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            fxLayoutGap="20px"
+            class="carousel-selector-wrapper"
+          >
+            <div
+              *ngFor="let j of [0, 1, 2, 3]; let k = index"
+              class="carousel-selector"
+              fxFlex
+              [ngClass]="{ active: k == i }"
+              (click)="selectNews(k)"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="meets.length > 0" fxLayout="row" class="next-meet">
+      <div
+        fxFlex="25"
+        class="next-meet-image"
+        [style.backgroundImage]="'url(' + meets[0].images[0] + ')'"
+      ></div>
+      <div
+        fxFlex="80"
+        fxLayout="row wrap"
+        fxLayoutAlign="start center"
+        style="padding: 35px; color: white;"
+      >
+        <div
+          class="full-height"
+          fxLayout="row"
+          fxLayoutAlign="center space-between"
+          fxFlex="66"
+        >
+          <div fxFlex="66">
+            <h3 class="letter-spacing-1 text-uppercase">Next Meet</h3>
+            <h2 class="letter-spacing-1 text-uppercase fw-600">
+              {{ meets[0].title }}
+            </h2>
+            <!-- <h3>{{ meets[0].subtitle }}</h3> -->
+            <h3>
+              {{ meets[0].venue.location.address.city }},
+              {{ meets[0].venue.location.address.province }}
+            </h3>
+          </div>
+          <div fxflex fxLayout="column" fxLayoutAlign="center flex-end">
+            <h3>
+              {{ meets[0].dates[0]?.start | date: "longDate" }}
+              -
+              {{
+                meets[0].dates[meets[0].dates.length - 1]?.end
+                  | date: "longDate"
+              }}
+            </h3>
+          </div>
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+          <button
+            mat-button
+            [routerLink]="['/meets/' + meets[0]._id ]"
+          >
+            View Meet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxLayoutGap="7vw" class="page-section">
+    <div
+      *ngIf="news.length > 0"
+      fxFlex="100"
+      fxFlex.gt-sm="50"
+      fxLayout="column"
+    >
+      <div
+        class="latest-news"
+        style="width: 100%;"
+        [routerLink]="['/news/' + news[0]._id]"
+      >
+        <div
+          class="latest-image"
+          [style.backgroundImage]="['url(' + news[0].imagePath + ')']"
+        ></div>
+        <div class="latest-news-info">
+          <h2 class="letter-spacing-1 text-uppercase fw-600">
+            {{ news[0].title }}
+          </h2>
+          <h3>{{ news[0].creationDate | date: "longDate" }}</h3>
+          <h3>{{ news[0].description }}</h3>
+          <a [routerLink]="['/news/' + news[0]._id]">View Article</a>
+        </div>
+      </div>
+      <div *ngFor="let article of news | slice: 1:4">
+        <div
+          style="width: 100%; height: 1px; background-color: lightgray; margin-top: 25px;"
+        ></div>
+        <div
+          class="latest-news-list-item"
+          fxLayout="row wrap"
+          fxLayoutGap="25px"
+          width="100%"
+          [routerLink]="['/news/' + article._id]"
+        >
+          <div
+            class="latest-news-list-item-image"
+            fxFlex="35"
+            [style.backgroundImage]="['url(' + article.imagePath + ')']"
+          ></div>
+          <div class="latest-news-list-item-info" fxFlex>
+            <h2 class="letter-spacing-1 text-uppercase fw-600">
+              {{ article.title }}
+            </h2>
+            <h3>{{ article.creationDate | date: "longDate" }}</h3>
+            <h3>{{ article.description }}</h3>
+            <a [routerLink]="['/news/' + article._id]">View Article</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="100" fxFlex>
+      <div
+        fxLayout="column"
+        class="home-stats"
+        style="position: sticky; top: 90px; height: auto; padding: 25px"
+      >
+        <div
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          class="full-width"
+          style="padding: 20px;"
+        >
+          <h2 class="text-center letter-spacing-1 text-uppercase fw-600">
+            CPL Meets
+          </h2>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          class="full-width"
+          style="padding-bottom: 20px;"
+        >
+          <div
+            fxFlex="50"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            (click)="openMeets = 'upcoming'"
+            class="meet-selector"
+          >
+            <h3 class="letter-spacing-1 text-uppercase fw-600">Upcoming</h3>
+          </div>
+          <div
+            fxFlex="50"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            (click)="openMeets = 'completed'"
+            class="meet-selector"
+          >
+            <h3 class="letter-spacing-1 text-uppercase fw-600">Completed</h3>
+          </div>
+        </div>
+        <div
+          *ngIf="openMeets == 'upcoming'"
+          fxLayout="column"
+          class="full-width"
+        >
+          <div
+            *ngFor="let meet of upcomingMeets | slice: 0:4"
+            class="full-width meet-list-item"
+          >
+            <div [routerLink]="['/meets/' + meet._id]">
+              <div fxLayout="row">
+                <div fxflex>
+                  <h3>{{ meet.title }}</h3>
+                  <h3>
+                    {{ meets[0].dates[0]?.start | date: "mediumDate" }}
+                  </h3>
+                </div>
+              </div>
+              <div fxFlex fxLayoutAlign="flex-end center">
+                <a [routerLink]="['/meets/' + meet._id ]"
+                  >View Meet</a
+                >
+              </div>
+            </div>
+          </div>
+          <div *ngIf="upcomingMeets.length == 0" style="padding: 20px;">
+            No Upcoming Meets.
+          </div>
+        </div>
+        <div
+          *ngIf="openMeets == 'completed'"
+          fxLayout="column"
+          class="full-width"
+        >
+          <div
+            *ngFor="let meet of meets | slice: 0:4"
+            class="full-width meet-list-item"
+          >
+            <div [routerLink]="['/meets/' + meet._id]">
+              <div fxLayout="row">
+                <div fxFlex>
+                  <h3>{{ meet.title }}</h3>
+                  <h3>
+                    {{ meets[0].dates[0]?.start | date: "mediumDate" }}
+                  </h3>
+                </div>
+                <div fxFlex fxLayoutAlign="flex-end center">
+                  <a [routerLink]="['/meets/' + meet._id]">View Meet</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="meets.length == 0" style="padding: 20px;">
+            No Past Meets.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    class="page-section social-section"
+  >
+    <div class="filter"></div>
+    <div fxFlex fxLayout="row wrap" fxLayoutGap="25px" style="height: 100%">
+      <div fxFlex="100" fxLayoutAlign="center center">
+        <h1 class="letter-spacing-1 text-uppercase fw-600" style="color:white !important; margin-bottom: 25px; z-index: 1">Social</h1>
+      </div>
+      <div fxFlex fxLayout="column" class="social-square">
+        <div
+          class="social-image"
+          style="background-size: cover; min-height: 300px; width: 100%"
+          [style.backgroundImage]="[
+            'url(https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)'
+          ]"
+        ></div>
+        <div style="width: 100%;" fxFlex="row" fxLayoutAlign="center center">
+          <a href="">Facebook</a>
+        </div>
+      </div>
+      <div fxFlex fxLayout="column" class="social-square">
+        <div
+          class="social-image"
+          style="background-size: cover; min-height: 300px; width: 100%"
+          [style.backgroundImage]="[
+            'url(https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)'
+          ]"
+        ></div>
+        <div style="width: 100%;" fxFlex="row" fxLayoutAlign="center center">
+          <a href="">Instagram</a>
+        </div>
+      </div>
+      <div fxFlex fxLayout="column" class="social-square">
+        <div
+          class="social-image"
+          style="background-size: cover; min-height: 300px; width: 100%"
+          [style.backgroundImage]="[
+            'url(https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)'
+          ]"
+        ></div>
+        <div style="width: 100%;" fxFlex="row" fxLayoutAlign="center center">
+          <a href="">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    fxLayoutGap="7vw"
+    class="page-section"
+  >
+    <div
+      fxFlex="50"
+      fxHide
+      fxHide.gt-md="false"
+      style="height: 600px; background: lightgray; background-size: cover; background-position: 50% 0%;"
+      [style.backgroundImage]="[
+        'url(https://images.unsplash.com/photo-1541600278744-d4cba88bb2c7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)'
+      ]"
+    ></div>
+    <div fxFlex fxLayout="column" fxLayoutAlign.gt-md="space-between start" fxLayoutAlign="space-between center" style="height: 350px;">
+      <h1 class="letter-spacing-1 text-uppercase fw-600">Become a Member</h1>
+      <p>
+        Nulla metus urna, porttitor lobortis efficitur in, fringilla at tellus.
+        Ut consequat scelerisque efficitur. Donec nec ante at augue vulputate
+        elementum. Curabitur id orci dui.
+      </p>
+      <button mat-button [routerLink]="['/members']">
+        Become a Member
+      </button>
+    </div>
+  </div>
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    class="page-section records-section"
+  >
+    <div
+      fxFlex="100"
+      fxLayout="row"
+      style="position:relative; height: 100%; background-size: cover;"
+      [style.backgroundImage]="[
+        'url(https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)'
+      ]"
+    >
+      <div class="filter"></div>
+      <div
+        fxLayout="column"
+        fxFlex="100"
+        fxLayoutAlign="center center"
+        style="z-index: 2; color: white;"
+      >
+        <h1 class="letter-spacing-1 text-uppercase fw-600">CPL Records</h1>
+        <p class="mt-1 mb-1">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+          eleifend sit amet diam sit amet consequat.
+        </p>
+        <button mat-button [routerLink]="['/records']" style="margin-top: 8px;">View Records</button>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxLayoutGap="7vw" class="page-section">
+    <div
+      *ngFor="let meet of meets | slice: 0:2"
+      fxFlex
+      style=" position:relative; cursor: pointer"
+      [routerLink]="['/meets/' + meet._id]"
+    >
+      <div
+        style="min-height: 300px; position:relative; background-color: lightgray; background-size: cover;"
+        [style.backgroundImage]="['url(' + meet.images[0] + ')']"
+      >
+        <div class="filter"></div>
+      </div>
+      <div>
+        <h1 class="letter-spacing-1 text-uppercase fw-600 mt-1 mb-1">{{ meet.title }}</h1>
+        <h3>
+          {{ meets[0].dates[0]?.start | date: "longDate" }}
+          -
+          {{
+            meets[0].dates[meets[0].dates.length - 1]?.end
+              | date: "longDate"
+          }}
+        </h3>
+        <h3>{{ meets[0].subtitle }}</h3>
+        <h3 class="mb-1">
+          {{ meets[0].venue.location.address.city }},
+          {{ meets[0].venue.location.address.province }}
+        </h3>
+        <button
+          mat-button
+          [routerLink]="['/meets/' + meet._id + '/results']"
+          routerLinkActive="router-link-active"
+        >
+          Results
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

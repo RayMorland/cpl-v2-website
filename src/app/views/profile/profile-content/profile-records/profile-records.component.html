@@ -1,0 +1,190 @@
+<div *ngIf="recordsReady">
+  <div fxLayout="row wrap">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxFlex="100">
+      <form
+        fxFlex
+        fxLayout="row wrap"
+        class="sort-form"
+        [formGroup]="filterForm"
+      >
+        <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="33.3">
+          <mat-form-field
+            fxFlex
+            style="margin: 8px; padding: 8px; background-color: white"
+          >
+            <input
+              matInput
+              name="searchRecords"
+              placeholder="Search My Records"
+              formControlName="search"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+          <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex="100"
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Division</mat-label>
+              <mat-select formControlName="division">
+                <mat-option [value]=""> All Divisions </mat-option>
+                <mat-option
+                  *ngFor="let division of divisions"
+                  [value]="division"
+                >
+                  {{ division }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category">
+                <mat-option [value]=""> All Categories </mat-option>
+                <mat-option
+                  *ngFor="let category of categories"
+                  [value]="category"
+                >
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Lift</mat-label>
+              <mat-select formControlName="lift">
+                <mat-option [value]=""> All Lifts </mat-option>
+                <mat-option *ngFor="let lift of lifts" [value]="lift">
+                  {{ lift }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Tested</mat-label>
+              <mat-select formControlName="test">
+                <mat-option [value]=""> All Tests </mat-option>
+                <mat-option *ngFor="let test of tests" [value]="test">
+                  {{ test }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div fxLayout="row wrap">
+    <div
+      *ngFor="let record of filteredRecords; let i = index"
+      fxFlex="100"
+      fxFlex.md="50"
+      fxFlex.gt-sm="33.33"
+      class="record-card"
+      [@animate]="{
+        value: '*',
+        params: { delay: i * 100 + 'ms', y: '50px' }
+      }"
+    >
+      <mat-card style="padding: 25px">
+        <!-- <mat-card-title>Record Title</mat-card-title> -->
+        <mat-card-content [ngClass]="{ 'text-muted': !record.currentRecord }">
+          <div class="full-width text-center">
+            <h5
+              *ngIf="record.currentRecord"
+              class="text-uppercase m-0"
+              style="font-size: 20px"
+            >
+              Current Record Holder
+            </h5>
+            <h5
+              *ngIf="!record.currentRecord"
+              class="text-muted text-uppercase m-0"
+              style="font-size: 20px"
+            >
+              Past Record Holder
+            </h5>
+          </div>
+          <div
+            fxflex="row wrap"
+            flexLayoutAlign="center center"
+            class="text-center text-uppercase"
+            style="padding-top: 10px"
+          >
+            <h1 class="full-width" style="font-size: 40px; margin-bottom: 25px">
+              <b>{{ record.lift }}</b>
+            </h1>
+            <h4 class="text-muted" style="margin-bottom: 25px; padding: 20px">
+              <mat-chip-list>
+                <mat-chip>{{ record.division.name }}</mat-chip>
+                <mat-chip>{{ record.division.ageClass.min }} - {{ record.division.ageClass.max }}</mat-chip>
+                <mat-chip>{{ record.category }}</mat-chip>
+                <mat-chip>{{ record.event }}</mat-chip>
+                <mat-chip>{{ record.weightClass }}</mat-chip>
+              </mat-chip-list>
+              <!-- <b
+                      > 
+                       </b
+                    > -->
+            </h4>
+            <mat-icon style="font-size: 100px; height: 100px; width: 100px"
+              >fitness_center</mat-icon
+            >
+            <h1 [ngClass]="{ 'text-muted': !record.currentRecord }">
+              <b
+                ><span style="font-size: 100px">{{ record.weight }}</span
+                >kg</b
+              >
+            </h1>
+            <div fxLayout="row wrap" style="padding: 20px">
+              <div fxFlex="100">
+                <h3 style="margin-bottom: 20px">
+                  <b
+                    >{{ record.recordDate | date: "longDate" }}<br />-<br />
+                    <span *ngIf="record.currentRecord">Now</span>
+                    <span *ngIf="!record.currentRecord">{{
+                      record.overthrownDate | date: "longDate"
+                    }}</span>
+                  </b>
+                </h3>
+              </div>
+              <div fxFlex="100">
+                <h3>
+                  <b>{{ record.meetName }}</b>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <span fxFlex></span>
+          <button mat-icon-button>
+            <mat-icon style="font-size: 30px">get_app</mat-icon>
+          </button>
+          <a
+            mat-icon-button
+            matToolTip="View Meet"
+            [routerLink]="['/meets/' + record.meetId]"
+          >
+            <mat-icon style="font-size: 30px">info</mat-icon>
+        </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

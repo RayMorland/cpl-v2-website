@@ -1,0 +1,215 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="top-header">
+  <div
+    fxFlex="10"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    class="top-header-logo"
+    routerLink="/"
+  >
+    <span class="logo">CPL</span>
+  </div>
+  <div
+    fxShow
+    fxHide.lt-lg="true"
+    fxLayout="row wrap"
+    fxLayoutAlign="flex-start center"
+    fxFlex
+    class="top-header-links"
+  >
+    <div class="top-header-dropdown-link">
+      <a
+        class="top-header-link"
+        routerLink="/meets"
+        routerLinkActive="top-header-link-active"
+      >
+        Meets
+        <!-- <mat-icon>arrow_drop_down</mat-icon> -->
+        <div class="red-bar"><div class="red-bar-color"></div></div>
+      </a>
+      <!-- <div class="top-header-dropdown">
+        <div class="dropdown-link" [routerLink]="['/meets']">
+          <span>Upcoming</span>
+        </div>
+        <div class="dropdown-link" [routerLink]="['/meets']">
+          <span>Past</span>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="top-header-dropdown-link">
+      <a
+        class="top-header-link"
+        [routerLink]="['/news']"
+        routerLinkActive="top-header-link-active"
+      >
+        News
+        <!-- <mat-icon>arrow_drop_down</mat-icon> -->
+        <div class="red-bar"><div class="red-bar-color"></div></div>
+      </a>
+      <!-- <div class="top-header-dropdown">
+        <div class="dropdown-link" [routerLink]="['/news']">
+          <span>Latest</span> 
+        </div>
+        <div class="dropdown-link" [routerLink]="['/news']">
+          <span>Events</span>  
+        </div>
+      </div> -->
+    </div>
+    <a
+      class="top-header-link"
+      [routerLink]="['/records']"
+      routerLinkActive="top-header-link-active"
+    >
+      Records
+      <div class="red-bar"><div class="red-bar-color"></div></div>
+    </a>
+    <a
+      class="top-header-link"
+      [routerLink]="['/members']"
+      routerLinkActive="top-header-link-active"
+    >
+      Members
+      <div class="red-bar"><div class="red-bar-color"></div></div>
+    </a>
+    <div class="top-header-dropdown-link">
+      <a
+        class="top-header-link"
+        [routerLink]="['/coordinators']"
+        routerLinkActive="top-header-link-active"
+      >
+        Coordinators
+        <mat-icon>arrow_drop_down</mat-icon>
+        <div class="red-bar"><div class="red-bar-color"></div></div>
+      </a>
+      <div class="top-header-dropdown">
+        <!-- <div class="dropdown-link" [routerLink]="['/coordinators']">
+          <span>About</span>
+        </div> -->
+        <div class="dropdown-link" [routerLink]="['/coordinators']">
+          <span>Coordinator Login</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-header-dropdown-link">
+      <a
+        class="top-header-link"
+        [routerLink]="['/about']"
+        routerLinkActive="top-header-link-active"
+      >
+        About
+        <mat-icon>arrow_drop_down</mat-icon>
+        <div class="red-bar"><div class="red-bar-color"></div></div>
+      </a>
+      <div class="top-header-dropdown">
+        <div class="dropdown-link" [routerLink]="['/about/powerlifting']">
+          <span>Powerlifting</span>
+        </div>
+        <div class="dropdown-link" [routerLink]="['/about/organization']">
+          <span>Organization & Officials</span>
+        </div>
+        <div class="dropdown-link" [routerLink]="['/about/sponsors']">
+          <span>Sponsors</span>
+        </div>
+        <div class="dropdown-link" [routerLink]="['/about/rules']">
+          <span>Rules</span>
+        </div>
+      </div>
+    </div>
+    <div fxFlex></div>
+    <button mat-icon-button style="margin: 20px" [routerLink]="['/search']">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <div
+    fxFlex="10"
+    fxHide
+    fxShow.lt-lg="true"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    class="top-header-menu-button"
+    (click)="openMenu()"
+  >
+    <mat-icon>menu</mat-icon>
+  </div>
+  <div fxFlex="10" fxShow fxHide.lt-lg class="top-header-member-link-dropdown">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      class="top-header-member"
+      routerLink="/profile"
+      routerLinkActive="top-header-member-active"
+    >
+      <span *ngIf="memberReady" fxShow fxHide.lt-lg="true">{{
+        member?.personal.firstName
+      }}</span>
+      <span *ngIf="!memberReady" fxHide fxShow.lg="true">Login</span>
+    </div>
+    <div *ngIf="memberReady" class="top-header-member-dropdown">
+      <div class="dropdown-link" (click)="logout()">Sign out</div>
+    </div>
+  </div>
+  <!-- <div
+    *ngIf="!memberReady"
+    fxFlex="10"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    class="top-header-member"
+    routerLink="/login"
+    routerLinkActive="top-header-member-active"
+  >
+  </div> -->
+</div>
+
+<!-- Full Screen Menu -->
+<div class="full-screen-menu" fxLayout="column" [ngClass]="{ open: menuOpen }">
+  <div
+    class="full-screen-menu-top-buttons full-width"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <span fxFlex></span>
+    <button class="menu-close-button" (click)="closeMenu()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div
+    class="full-screen-menu-links full-width"
+    fxFlex
+    fxLayout="column"
+    fxLayoutAlign="center center"
+  >
+    <div class="" fxLayout="column" fxLayoutAlign="center center">
+      <a
+        [routerLink]="['/meets']"
+        class="full-screen-menu-link"
+        (click)="menuOpen = !menuOpen"
+        >Meets</a
+      >
+      <a
+        [routerLink]="['/news']"
+        class="full-screen-menu-link"
+        (click)="menuOpen = !menuOpen"
+        >News</a
+      >
+      <a
+        [routerLink]="['/records']"
+        class="full-screen-menu-link"
+        (click)="menuOpen = !menuOpen"
+        >Records</a
+      >
+      <a
+        [routerLink]="['/coordinators']"
+        class="full-screen-menu-link"
+        (click)="menuOpen = !menuOpen"
+        >Coordinators</a
+      >
+      <a
+        [routerLink]="['/about']"
+        class="full-screen-menu-link"
+        (click)="menuOpen = !menuOpen"
+        >About</a
+      >
+    </div>
+    <div></div>
+  </div>
+</div>

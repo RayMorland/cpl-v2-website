@@ -1,0 +1,31 @@
+.timeline-image {
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    margin-bottom: 15px;
+}
+
+.notification-link:hover {
+    text-decoration: underline;
+}
+
+::ng-deep .mat-list-item-content {
+    padding: 0 !important;
+}
+
+.timeline-body-title{
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+}
+
+::ng-deep .mat-list-item-content:hover {
+    background-color: white;
+}
+
+.my-meet-list-item:hover {
+    background-color: white;
+}
+
+.my-meet-list-item:hover .link {
+    text-decoration: underline;
+}

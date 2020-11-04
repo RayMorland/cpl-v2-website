@@ -1,0 +1,297 @@
+<div fxLayout="row wrap">
+  <!-- Filters -->
+  <!-- Right side -->
+  <div fxLayout="column wrap" fxFlex="100" class="full-width cpl-list">
+    <!-- Search Form -->
+    <div
+      class="full-width"
+      fxLayout="row wrap"
+      fxLayout.lt-sm="column"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '700ms' } }"
+    >
+      <form
+        fxFlex
+        fxLayout="row wrap"
+        class="sort-form"
+        [formGroup]="filterForm"
+      >
+        <!-- <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="33.3">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <input
+                matInput
+                name="searchMeet"
+                placeholder="Search Meets"
+                formControlName="search"
+              />
+            </mat-form-field>
+          </div> -->
+        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="50">
+          <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex="100"
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Coordinator</mat-label>
+              <mat-select formControlName="coordinator">
+                <mat-option [value]="null"> all </mat-option>
+                <mat-option
+                  *ngFor="let coordinator of coordinators"
+                  [value]="coordinator"
+                >
+                  {{ coordinator }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Province</mat-label>
+              <mat-select formControlName="province">
+                <mat-option [value]="null"> all </mat-option>
+                <mat-option
+                  *ngFor="let province of provinces"
+                  [value]="province"
+                >
+                  {{ province }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="50">
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Year</mat-label>
+              <mat-select formControlName="year">
+                <mat-option [value]="null"> all </mat-option>
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-sm="50">
+            <mat-form-field
+              fxFlex
+              style="margin: 8px; padding: 8px; background-color: white"
+            >
+              <mat-label>Month</mat-label>
+              <mat-select formControlName="month">
+                <mat-option [value]="null"> all </mat-option>
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{ month }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Meets container -->
+    <div
+      class="full-width"
+      *ngIf="meetsReady && filteredMeets.length > 0"
+      fxLayout="row wrap"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }"
+    >
+      <!-- Meet Card -->
+      <div
+        fxFlex="100"
+        fxFlex.gt-sm="33.3"
+        fxFlex.sm="50"
+        *ngFor="
+          let registration of meetRegistrations
+            | paginate: { itemsPerPage: 6, currentPage: currentPage };
+          let i = index
+        "
+        [@animate]="{
+          value: '*',
+          params: { delay: i * 100 + 'ms', y: '50px' }
+        }"
+      >
+        <mat-card
+          [routerLink]="['/profile/meets/', registration._id]"
+          fxLayout="column"
+          class="meet-card"
+        >
+          <mat-card-content fxFlex fxLayout="column" style="padding-top: 200px">
+            <div
+              class="featured-img"
+              [style.backgroundImage]="'url(' + registration.meetId.images[0] + ')'"
+              [ngStyle]="{
+                'background-image':
+                  'url(https://images.unsplash.com/photo-1517344687790-7338f238f7f5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80)'
+              }"
+            >
+              <div
+                fxLayout="row"
+                fxLayoutAlign="center center"
+                *ngIf="!registration.meetId.registrationClosed && !registration.meetId.completed"
+                class="filter"
+              ></div>
+              <div
+                fxLayout="row"
+                fxLayoutAlign="center center"
+                *ngIf="registration.meetId.registrationClosed && registration.meetId.completed"
+                class="filter"
+              >
+                <h1
+                  style="
+                    color: white;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                  "
+                >
+                  Meet Completed
+                </h1>
+              </div>
+              <div
+                fxLayout="row"
+                fxLayoutAlign="center center"
+                *ngIf="registration.meetId.registrationClosed && !registration.meetId.completed"
+                class="filter"
+              ></div>
+            </div>
+            <div fxLayout="column" fxFlex="100" class="info-wrap p-1">
+              <div
+                class="full-width"
+                fxLayout="row wrap"
+                fxLayoutAlign="space-between start"
+                style="width: 100%; margin-bottom: 30px"
+              >
+                <div fxFlex="column" class="full-width">
+                  <div
+                    class="full-width"
+                    fxLayout="row"
+                    fxLayoutAlign="space-between start"
+                  >
+                    <h3 class="letter-spacing-1 text-uppercase fw-600 title">
+                      <b>{{ registration.meetId.title }}</b>
+                    </h3>
+                    <span fxFlex></span>
+                    <h3 class="text-muted">
+                      <b>{{ registration.meetId.dates[0].start | date: "MMM dd" }}</b>
+                    </h3>
+                  </div>
+                  <div class="full-width">
+                    <h3
+                      class="letter-spacing-1 text-uppercase fw-600"
+                      fxFlex="75"
+                      style="font-size: 1vw"
+                    >
+                      <b
+                        >{{ registration.meetId.venue.location.address.city }},
+                        {{ registration.meetId.venue.location.address.province }}</b
+                      >
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <span fxFlex></span>
+              <div fxLayout="row wrap" class="full-width">
+                <h3
+                  class="letter-spacing-1 text-uppercase fw-600 full-width"
+                  style="font-size: 1vw; margin-bottom: 5px"
+                >
+                  Registered On: {{ registration.meetId.creationDate | date: "shortDate" }}
+                </h3>
+                <h3
+                  class="letter-spacing-1 text-uppercase fw-600 full-width"
+                  style="font-size: 1vw; margin-bottom: 10px"
+                >
+                  Fees Paid: Yes
+                </h3>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div fxLayout="row" class="actions">
+                <span fxFlex></span>
+                <a
+                  mat-icon-button
+                  color="primary"
+                  matTooltip="Download Registration"
+                  style="margin-right: 0 !important; font-size: 30px !important"
+                  download [href]="registration.regLink" target="_blank"
+                >
+                  <mat-icon>get_app</mat-icon>
+            </a>
+                <button
+                  mat-icon-button
+                  color="primary"
+                  matTooltip="View Meet Info"
+                  style="margin-right: 0 !important; font-size: 30px !important"
+                  [routerLink]="['/meets/' + registration.meetId._id]"
+                >
+                  <mat-icon>info</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  *ngIf="registration.meetId.completed"
+                  color="primary"
+                  matTooltip="See Meet Results"
+                  style="margin-right: 0 !important"
+                  [routerLink]="['/meets/' + registration.meetId._id + '/results']"
+                >
+                  Results
+                </button>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <!-- Paginator -->
+      <div
+        fxLayout="row"
+        fxFlex="100"
+        fxLayoutAlign="center center"
+        class="products-pagination"
+      >
+        <pagination-controls
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
+    </div>
+
+    <!-- If member has no meets -->
+    <div
+      class="full-width"
+      *ngIf="meetsReady && filteredMeets.length == 0"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="20px"
+      style="padding: 100px"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }"
+    >
+      <h2 class="letter-spacing-1 text-uppercase fw-600">No Meets</h2>
+      <p>Sign up for your first meet today!</p>
+      <a [routerLink]="['/meets']" class="link">Go to Meets</a>
+    </div>
+
+    <div
+      *ngIf="!meetsReady"
+      class="spinner-wrapper full-width"
+      fxLayoutAlign="center center"
+      style="padding: 100px"
+      [@animate]="{ value: '*', params: { y: '50px', delay: '700ms' } }"
+    >
+      <mat-progress-spinner
+        class="example-margin"
+        [color]="warn"
+        [mode]="'indeterminate'"
+        [value]="75"
+      >
+      </mat-progress-spinner>
+      <!-- End Meets container -->
+    </div>
+  </div>
+</div>

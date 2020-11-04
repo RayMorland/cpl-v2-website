@@ -1,0 +1,80 @@
+<div *ngIf="settingsReady" fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <mat-card class="mb-1 profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>Personal Settings</mat-card-title>
+        <span fxFlex></span>
+        <button mat-icon-button (click)="openEditProfilePopup()"><mat-icon>create</mat-icon></button>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="column">
+          <div class="full-width" fxLayout="row">
+            <div fxLayout="column" fxFlex="50">
+              <span>Personal:</span>
+              <span>Name: {{ member.personal.firstName }} {{ member.personal.lastName }}</span>
+              <span>Birth Date: {{ member.personal.dob | date: 'longDate' }}</span>
+              <span>Gender: {{ member.personal.gender }}</span>
+              <span>Phone: {{ member.personal.phone }}</span>
+              <span>Home Gym: {{ member.personal.homeGym }}</span>
+              <span>Coach: {{ member.personal.coach }}</span>
+            </div>
+            <div fxLayout="column" fxFlex="50">
+              <span>Address:</span>
+              <span>{{ member.personal.address.street }}</span>
+              <span>{{ member.personal.address.province }}</span>
+              <span>{{ member.personal.address.country }}</span>
+              <span>{{ member.personal.address.postal }}</span>
+              <span>{{ member.personal.address.city }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="50" [@animate]="{ value: '*', params: { y: '50px', delay: '400ms' } }">
+    <mat-card class="mb-1 profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>Password Change</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form
+          [formGroup]="changePasswordForm"
+          class="signup-form sort-form"
+          fxLayout="column"
+          *ngIf="passwordChangeReady"
+        >
+          <mat-form-field class="full-width">
+            <mat-label>Current Password</mat-label>
+            <input
+              matInput
+              formControlName="oldPassword"
+              type="password"
+              name="password"
+              placeholder=""
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>New Password</mat-label>
+            <input
+              matInput
+              formControlName="newPassword"
+              type="password"
+              name="password"
+              placeholder=""
+            />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          type="button"
+          (click)="updatePassword()"
+        >
+          Change Password
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

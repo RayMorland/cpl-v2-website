@@ -1,0 +1,182 @@
+<div class="seciton-left"></div>
+<div
+  fxLayout="column"
+  fxFlex.gt-sm="40"
+  fxFlex="100"
+  class="form-holder height-100vh mat-elevation-z4"
+  [@animate]="{
+    value: '*',
+    params: { x: '500px', delay: '100ms', duration: '400ms' }
+  }"
+  style="padding: 50px 0px 50px 0px"
+>
+  <!-- CPL Logo -->
+  <div
+    *ngIf="showSignUp || showConfirm"
+    fxFlex="15"
+    class="mb-24"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+  >
+    <img height="100%" src="assets/images/cpl-logo.png" alt="" />
+  </div>
+  <!-- Sign up form -->
+  <div
+    fxFlex="75"
+    fxLayout="column"
+    *ngIf="showSignUp"
+    style="padding: 0px 25px 0px 25px"
+  >
+    <form
+      [formGroup]="registerForm"
+      class="sort-form"
+      fxLayout="column"
+      fxFlex="100"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="form-headline text-center mt-16 mb-16">
+        <h2 class="font-weight-bold">Lets get started!</h2>
+        <p class="text-muted">Create an account and get access to the CPL</p>
+      </div>
+
+      <div class="full-width">
+        <div
+          formGroupName="personal"
+          fxLayout="row wrap"
+          fxLayoutGap.md="16px"
+          fxLayoutGap.lg="16px"
+          class="full-width"
+        >
+          <mat-form-field fxFlex="1 1 0%">
+            <mat-label>First name</mat-label>
+            <input
+              formControlName="firstName"
+              matInput
+              type="text"
+              name="first_name"
+              placeholder=""
+            />
+          </mat-form-field>
+          <mat-form-field fxFlex="1 1 0%">
+            <mat-label>Last name</mat-label>
+            <input
+              formControlName="lastName"
+              matInput
+              type="text"
+              name="Last_name"
+              placeholder=""
+            />
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            name="email"
+            placeholder=""
+          />
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            name="password"
+            placeholder=""
+          />
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Confirm password</mat-label>
+          <input
+            matInput
+            type="password"
+            name="confirm_password"
+            placeholder=""
+            formControlName="confirmPassword"
+          />
+          <mat-error> Password didn't match </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox
+          class="mb-24 mt-24"
+          formControlName="agreed"
+          style="font-size: 20px"
+          >I agree with
+          <a
+            (click)="openTermsAndConditionsPopup()"
+            class="link mat-color-primary"
+            >terms and condtions</a
+          ></mat-checkbox
+        >
+      </div>
+      <button mat-button color="primary" (click)="registerMember()">
+        register
+      </button>
+    </form>
+  </div>
+  <!-- Confirmation Code Form -->
+  <div
+    fxFlex="75"
+    fxLayout="column"
+    *ngIf="showConfirm"
+    style="padding: 0px 25px 0px 25px"
+  >
+    <form
+      [formGroup]="confirmForm"
+      class="sort-form"
+      fxLayout="column"
+      fxFlex="100"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="form-headline text-center mt-16 mb-16">
+        <h2>Confirm your email address</h2>
+      </div>
+
+      <div class="full-width">
+        <mat-form-field class="full-width pt-1 pb-1">
+          <mat-label>Email</mat-label>
+          <input
+            formControlName="email"
+            matInput
+            type="text"
+            name="email"
+            placeholder=""
+          />
+        </mat-form-field>
+        <mat-form-field class="full-width pt-1 pb-1">
+          <mat-label>Confirmation Code</mat-label>
+          <input
+            matInput
+            placeholder=""
+            formControlName="code"
+            required
+            name="confirmationControl"
+          />
+          <!-- <mat-hint *ngIf="!codeInput.value"
+            >Enter the confirmation code that was emailed to you</mat-hint
+          > -->
+        </mat-form-field>
+      </div>
+
+      <button mat-button color="primary" (click)="confirmCode()">
+        Confirm
+      </button>
+      <p>
+        Didn't receive a code?
+        <a href="javascript:void(null)" (click)="sendAgain()" class="link"
+          >Send again</a
+        >
+      </p>
+    </form>
+  </div>
+
+  <div fxFlex="10" fxLayout="column" fxLayoutAlign="center center">
+    <a [routerLink]="'/login'" class="link">Sign in with an existing account</a>
+    <a class="link" routerLink="/">Back to CPL site</a>
+  </div>
+</div>

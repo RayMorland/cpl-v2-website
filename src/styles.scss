@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    // font-family: 'IBM Plex Sans', sans-serif;
+    background-color: #f5f4f4;
+}
+
+.no-background-dialog {
+    background-color: rgba(0,0,0,0) !important;
+    box-shadow: none !important;
+}
+
+p {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.45vw;
+}
+
+.mat-card { 
+    background-color: white;
+}
+
+.page-section{
+    // background-color: white;
+    position: relative;
+    height: auto;
+    padding: 3.5vw 7vw 3.5vw 7vw;
+}
+
+.page-section.top {
+    padding-top: 7vw;
+}
+
+.page-section.bottom {
+    padding-bottom: 7vw;
+}
+
+.cpl-card {
+    margin: 8px;
+    padding: 16px;
+    background-color: white;
+    width: inherit;
+    min-height: 32px;
+}
+
+.filter {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:100%;
+    position: absolute;
+    background-color: rgba(17,17,17, .9);
+    z-index: 1;
+}
+
+.carousel-image-filter {
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left:0;
+    background-color: rgba(37, 37, 37, 0.5);
+}
+
+.full-page-section {
+    width: inherit;
+    padding: 6vw;
+}
+
+.top-page-section {
+    height: 65vh;
+    background-color: lightgray;
+    background-size: cover;
+    background-position: center 20%;
+    position: relative;
+}
+
+.top-page-section-info {
+    position: absolute;
+    bottom: 5vh;
+    color: white;
+    font-size: 4vw;
+    z-index: 2;
+}
+
+.top-page-section h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 6vw;
+}

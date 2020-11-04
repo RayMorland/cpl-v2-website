@@ -1,0 +1,161 @@
+<!-- Default Payment Method -->
+<div *ngIf="billingReady" fxLayout="row wrap">
+  <div
+    fxFlex="100"
+    fxFlex.gt-sm="100"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+  >
+    <mat-card class="mb-1 profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>Default Billing Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="paymentMethods.length > 0" fxLayout="column">
+          <h3>Current Payment Method</h3>
+          <h4 style="font-size: 1.1rem">Card Type: {{ paymentMethods[0].card.brand }} </h4>
+          <h4 style="font-size: 1.1rem">last 4 digits: {{ paymentMethods[0].card.last4 }}</h4>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+        mat-button
+        class="mb-05"
+        color="primary"
+        (click)="openCardPopup({}, true)"
+      >
+        Update Card
+      </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<!-- <div fxLayout="row wrap">
+  <div
+    fxFlex="100"
+    fxFlex.gt-sm="100"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '400ms' } }"
+  >
+    <mat-card class="mb-1 profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>My Cards</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <button
+          mat-button
+          class="mb-05"
+          color="primary"
+          (click)="openCardPopup({}, true)"
+        >
+          {{ "ADD" }} {{ "CARD" }}
+        </button>
+        <ngx-datatable
+          class="material ml-0 mr-0"
+          [rows]="paymentMethods"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+          [limit]="10"
+          [rowHeight]="50"
+        >
+          <ngx-datatable-column name="type" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row?.card.brand }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="cardNumber" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              ...{{ row?.card.last4 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Actions" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <button
+                mat-icon-button
+                mat-sm-button
+                color="primary"
+                class="mr-1"
+                (click)="openCardPopup(row, false)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                mat-sm-button
+                color="warn"
+                (click)="deleteItem(row)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> -->
+
+<!-- Invoices Table -->
+<div *ngIf="billingReady" fxLayout="row wrap">
+  <div
+    fxFlex="100"
+    fxFlex.gt-sm="100"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '500ms' } }"
+  >
+    <mat-card class="mb-1 profile-mat-card">
+      <mat-card-header>
+        <mat-card-title>Invoices</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="memberBilling.length == 0">No Invoices</div>
+        <div
+          *ngIf="memberBilling.length > 0"
+          fxLayout="column"
+          class=""
+        >
+        <!-- <div class="full-width" fxLayout="row">
+          <form class="sort-form" fxFlex="100">
+            <mat-form-field class="full-width">
+              <mat-label>Filter Invoices</mat-label>
+              <input
+                matInput
+                (keyup)="filterInvoices($event)"
+                placeholder="Ex. ium"
+                #input
+              />
+            </mat-form-field>
+          </form>
+        </div> -->
+
+        <div class="full-width">
+          <ngx-datatable
+          class="material ml-0 mr-0 full-width"
+          [rows]="memberBilling"
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+          [limit]="10"
+          [rowHeight]="auto"
+        >
+          <ngx-datatable-column name="Id" [flexGrow]="3">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row?.id }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Actions" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <button mat-icon-button><mat-icon>visibility</mat-icon></button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+          <mat-paginator
+            #billingPaginator
+            [pageSizeOptions]="[5]"
+          ></mat-paginator>
+        </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

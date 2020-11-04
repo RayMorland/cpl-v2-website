@@ -1,0 +1,58 @@
+.main-footer {
+    background-attachment: fixed;
+    color: white;
+    // background-color: rgb(17, 17, 17);
+    // height: 300px;
+    position: relative;
+    color: #111111;
+}
+
+#cpl-logo {
+    cursor: pointer;
+    // opacity: .6;
+    transition: all .2s;
+    margin-right: 35px;
+}
+
+#ipl-logo {
+    cursor: pointer;
+    // opacity: .6;
+    transition: all .2s;
+}
+
+#cpl-logo:hover {
+    opacity: 1;
+}
+
+#ipl-logo:hover {
+    opacity: 1;
+}
+
+.footer-top {
+    padding: 7vw;
+    width: 100%;
+}
+
+.footer-bottom {
+    background-color: rgb(7, 7, 7);
+    height: 80px;
+    width: 100%;
+    padding: 1.75vw 7vw;
+    color: white;
+}
+
+li {
+    margin-bottom: 7px;
+}
+
+li a {
+    font-weight: bold;
+    font-family: "Roboto";
+    font-size: 14px;
+    color: rgb(20,20,20);
+}
+
+.social-icon {
+    height: 20px;
+    filter: invert(1);
+}

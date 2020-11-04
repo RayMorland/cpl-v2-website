@@ -1,0 +1,515 @@
+<div
+  *ngIf="memberReady"
+  fxFlex="100"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  id="onboarding-container"
+>
+  <div id="screen"></div>
+  <mat-card
+    class="p-0 cpl-card"
+    fxLayout="column"
+    fxLayoutAlign="flex-start space-between"
+    fxFlex.gt-sm="80vw"
+    fxFlex
+    id="onboarding-card"
+  >
+    <!-- <mat-card-title class="">
+      <div class="card-title-text">Horizontal</div>
+      <mat-divider></mat-divider>
+    </mat-card-title> -->
+    <mat-card-content
+      class="p-0"
+      fxLayout="column"
+      fxFlex="100"
+      fxLayoutAlign="space-between center"
+    >
+      <form
+        fxFlex="100"
+        fxLayout="column"
+        class="sort-form"
+        fxFill
+        [formGroup]="memberOnboardingForm"
+      >
+        <mat-horizontal-stepper
+          fxFlex
+          fxLayout="column"
+          [linear]="true"
+          #stepper
+        >
+          <mat-step [stepControl]="personal">
+            <form formGroupName="personal" class="stepper-form">
+              <ng-template matStepLabel>Personal Info</ng-template>
+              <span></span>
+              <div fxLayout="row wrap">
+                <div fxFlex="100">
+                  <h2 class="mb-1">
+                    <b
+                      >Welcome to the CPL
+                      {{ user.name | slice: 0:user.name.indexOf(" ") }}!</b
+                    >
+                  </h2>
+                  <h3>
+                    Let's get started by filling out your personal information
+                    here.
+                  </h3>
+                </div>
+              </div>
+              <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-sm="100" fxLayout="column">
+                  <div fxLayout="row wrap">
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender">
+                          <mat-option
+                            *ngFor="let gender of genders"
+                            [value]="gender"
+                          >
+                            {{ gender }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <input
+                          matInput
+                          [matDatepicker]="picker"
+                          placeholder="Date of Birth"
+                          formControlName="dob"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row wrap" formGroupName="address">
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <input
+                          matInput
+                          placeholder="Street Address"
+                          formControlName="street"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <input
+                          matInput
+                          placeholder="City"
+                          formControlName="city"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="country">
+                          <mat-option
+                            *ngFor="let country of countries"
+                            [value]="country"
+                          >
+                            {{ country }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <mat-label>Province</mat-label>
+                        <mat-select formControlName="province">
+                          <mat-option
+                            *ngFor="let province of provinces"
+                            [value]="province"
+                          >
+                            {{ province }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <input
+                          matInput
+                          placeholder="Postal Code"
+                          formControlName="postal"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row wrap">
+                    <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                      <mat-form-field class="full-width pt-1 pb-1">
+                        <input
+                          matInput
+                          placeholder="Phone Number"
+                          formControlName="phone"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  [disabled]="!memberOnboardingForm.get('personal').valid"
+                  mat-button
+                  color="primary"
+                  (click)="goForward(stepper)"
+                >
+                  Next
+                </button>
+                <span fxFlex="8px"></span>
+                <button
+                  type="button"
+                  mat-button
+                  color="warn"
+                  (click)="cancel()"
+                >
+                  Cancel
+                </button>
+                <span fxFlex="8px"></span>
+              </div>
+            </form>
+          </mat-step>
+          <!-- Membership Info -->
+          <mat-step [stepControl]="membershipInfo">
+            <form formGroupName="membershipInfo">
+              <ng-template matStepLabel>Membership</ng-template>
+              <span></span>
+              <div fxLayout="column">
+                <div
+                  class="full-width"
+                  fxLayout="row wrap"
+                  style="padding-bottom: 24px"
+                >
+                  <div fxFlex="100">
+                    <h2>Choose a CPL Membership</h2>
+                  </div>
+                </div>
+                <div class="full-width" fxLayout="row wrap">
+                  <div *ngFor="let membership of memberships" fxFlex="33.3">
+                    <mat-card class="plan-card">
+                      <mat-card-title>{{ membership.name }}</mat-card-title>
+                      <mat-card-content>
+                        <p>{{ membership.description }}</p>
+                        <mat-list>
+                          <mat-list-item
+                            >Access to membership platform</mat-list-item
+                          >
+                          <mat-list-item
+                            >Register to any cpl sanctioned meet</mat-list-item
+                          >
+                          <mat-list-item></mat-list-item>
+                        </mat-list>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <button
+                          mat-button
+                          (click)="selectMembership(membership._id)"
+                        >
+                          Select Membership
+                        </button>
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                </div>
+                <div class="full-width" fxLayout="row wrap">
+                  <button type="button" mat-button (click)="cancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+          <!-- Plan Info -->
+          <mat-step [stepControl]="planInfo">
+            <form formGroupName="planInfo">
+              <ng-template matStepLabel>Plan</ng-template>
+              <span></span>
+              <div fxLayout="column" class="full-width">
+                <div
+                  class="full-width"
+                  fxLayout="row wrap"
+                  style="padding-bottom: 24px"
+                >
+                  <div fxFlex="100">
+                    <h2>Membership Plan</h2>
+                  </div>
+                </div>
+                <div
+                  *ngIf="membershipSelected"
+                  class="full-width"
+                  fxLayout="row wrap"
+                >
+                  <div
+                    *ngFor="let plan of selectedMembership.plans"
+                    fxFlex="33.3"
+                  >
+                    <mat-card class="plan-card">
+                      <mat-card-title>{{ plan.name }}</mat-card-title>
+                      <mat-card-content>
+                        <p>{{ plan.description }}</p>
+                        <h2>${{ plan.amount }} / {{ plan.interval }}</h2>
+                        <mat-list>
+                          <mat-list-item
+                            >Access to membership platform</mat-list-item
+                          >
+                          <mat-list-item
+                            >Register to any cpl sanctioned meet</mat-list-item
+                          >
+                          <mat-list-item></mat-list-item>
+                        </mat-list>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <button mat-button (click)="selectPlan(plan._id)">
+                          Select Plan
+                        </button>
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                </div>
+                <div class="full-width" fxLayout="row">
+                  <button
+                    type="button"
+                    mat-button
+                    color="warn"
+                    (click)="cancel()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-step>
+          <!-- Payment Info -->
+          <mat-step [stepControl]="paymentInfo">
+            <div *ngIf="!paymentComplete">
+              <form formGroupName="paymentInfo">
+                <ng-template matStepLabel>Payment</ng-template>
+                <span></span>
+                <div fxLayout="column">
+                  <div class="full-width" fxLayout="row wrap">
+                    <!-- Purchase Info -->
+                    <div
+                      fxFlex="100"
+                      fxFlex.gt-sm="33.33"
+                      fxLayout="column wrap"
+                    >
+                      <div fxLayout="row wrap">
+                        <h2>Purchase Info</h2>
+                      </div>
+                      <div fxLayout="row wrap"></div>
+                    </div>
+                    <!-- Billing Info -->
+                    <div fxFlex="100" fxFlex.gt-sm="66.666" fxLayout="column">
+                      <div fxLayout="row wrap" style="padding-bottom: 24px">
+                        <div fxFlex="100">
+                          <h2>Set Up Your Billing</h2>
+                          <h4>
+                            Fill out your billing information and subscribe to
+                            your chosen plan.
+                          </h4>
+                        </div>
+                      </div>
+                      <div fxLayout="row wrap" formGroupName="billingAddress">
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1">
+                          <mat-slide-toggle
+                            class="example-margin"
+                            [color]="color"
+                            [checked]="checked"
+                            [disabled]="disabled"
+                            (change)="billingAddressChange()"
+                          >
+                            Same as Personal Address
+                          </mat-slide-toggle>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                          <mat-form-field class="full-width pt-1 pb-1">
+                            <input
+                              matInput
+                              placeholder="Street Address"
+                              formControlName="street"
+                              required
+                            />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                          <mat-form-field class="full-width pt-1 pb-1">
+                            <input
+                              matInput
+                              placeholder="City"
+                              formControlName="city"
+                              required
+                            />
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                          <mat-form-field class="full-width pt-1 pb-1">
+                            <mat-label>Country</mat-label>
+                            <mat-select formControlName="country">
+                              <mat-option
+                                *ngFor="let country of countries"
+                                [value]="country"
+                              >
+                                {{ country }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                          <mat-form-field class="full-width pt-1 pb-1">
+                            <mat-label>Province</mat-label>
+                            <mat-select formControlName="province">
+                              <mat-option
+                                *ngFor="let province of provinces"
+                                [value]="province"
+                              >
+                                {{ province }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1">
+                          <mat-form-field class="full-width pt-1 pb-1">
+                            <input
+                              matInput
+                              placeholder="Postal Code"
+                              formControlName="postal"
+                              required
+                            />
+                          </mat-form-field>
+                        </div>
+                        <!-- <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1">
+                          <label for="card-element">Credit or debit card</label>
+                          <div id="card-element"></div>
+                          <div id="card-errors" role="alert"></div>
+                        </div> -->
+                        <!-- Card Element -->
+                        <div
+                          class="cell example example2"
+                          id="example-2"
+                          style="margin: 0px -12px; margin-bottom: 8px"
+                          fxFlex="100"
+                          fxLayout="row wrap"
+                        >
+                          <div class="row pr-1 wrap" fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="field">
+                              <div
+                                id="example2-card-number"
+                                #cardNumber
+                                class="input empty"
+                              ></div>
+                              <label for="example2-card-number"
+                                >Card number</label
+                              >
+                              <div class="baseline"></div>
+                            </div>
+                            <div id="card-number-errors" role="alert"></div>
+                          </div>
+                          <div class="row wrap" fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="field half-width">
+                              <div
+                                id="example2-card-expiry"
+                                #cardExpiry
+                                class="input empty"
+                              ></div>
+                              <label
+                                for="example2-card-expiry"
+                                data-tid="elements_examples.form.card_expiry_label"
+                                >Expiration</label
+                              >
+                              <div class="baseline"></div>
+                              <div id="card-expiry-errors" role="alert"></div>
+                            </div>
+                            <div class="field half-width">
+                              <div
+                                id="example2-card-cvc"
+                                #cardCvc
+                                class="input empty"
+                              ></div>
+                              <label
+                                for="example2-card-cvc"
+                                data-tid="elements_examples.form.card_cvc_label"
+                                >CVC</label
+                              >
+                              <div class="baseline"></div>
+                              <div id="card-cvc-errors" role="alert"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-width" fxLayout="row wrap">
+                    <button
+                      type="button"
+                      mat-button
+                      color="warn"
+                      (click)="cancel()"
+                    >
+                      Cancel
+                    </button>
+                    <span fxFlex="20px"></span>
+                    <button
+                      type="button"
+                      mat-button
+                      [disabled]="!memberOnboardingForm.valid"
+                      (click)="submitOnboardingForm()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="paymentComplete">Payment Success</div>
+          </mat-step>
+          <!-- Payment success meet signup -->
+          <mat-step>
+            <ng-template matStepLabel>Sign Up For A Meet</ng-template>
+            <span></span>
+            <div fxLayout="row wrap" style="padding-bottom: 24px">
+              <div fxFlex="100">
+                <h2>You're All Done!</h2>
+                <h4>
+                  Pick an up coming meet to sign up for or continue to your
+                  profile.
+                </h4>
+              </div>
+            </div>
+            <div fxLayout="row wrap">
+              <div *ngFor="let meet of meets | slice: 0:3" fxFlex="33.3">
+                <mat-card
+                  (click)="navigate('/meets/' + meet._id + '/register')"
+                >
+                  <mat-card-title>{{ meet.title }}</mat-card-title>
+                  <mat-card-content>
+                    <div
+                      class="meet-image"
+                      [style.backgroundImage]="['url(' + meet.images[0] + ')']"
+                    ></div>
+                    <a class="link" [routerLink]="['/meets/' + meet._id + '/register']">Register for this meet</a>
+                  </mat-card-content>
+                  <mat-card-actions> </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+            <div fxLayout="row wrap">
+              <button type="button" mat-button [routerLink]="['/profile']">
+                Go To Profile
+              </button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

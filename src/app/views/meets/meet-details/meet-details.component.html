@@ -1,0 +1,51 @@
+<div *ngIf="meetReady">
+  <div
+    class="full-page-section top-page-section"
+    [style.backgroundImage]="['url(' + meet.images[0] + ')']"
+  >
+    <div class="carousel-image-filter"></div>
+    <div class="top-page-section-info" fxLayout="row wrap" fxLayoutAlign="space-between bottom" style="width: 88vw">
+      <div fxFlex.gt-sm="50">
+        <h1 class="letter-spacing-1 text-uppercase fw-600">{{ meet.title }}</h1>
+      </div>
+      <div fxFlex fxLayout="row" fxLayoutAlign="end end">
+        <button
+          mat-button
+          [routerLink]="['/meets/' + meet._id + '/registration']"
+          class="register-button"
+          *ngIf="!meet.registrationClosed && !membersMeets.includes(meet._id)"
+        >
+          Register
+        </button>
+        <button
+          mat-button
+          (click)="navigate(meet._id)"
+          class="register-button"
+          *ngIf="!meet.registrationClosed && membersMeets.includes(meet._id)"
+        >
+          View My Registration
+        </button>
+        <span *ngIf="!onResults || results.length > 0" fxFlex="20px"></span>
+        <button
+          mat-button
+          [routerLink]="['/meets/' + meet._id + '/results']"
+          class="register-button"
+          *ngIf="!onResults && results.length > 0"
+        >
+          Results
+        </button>
+        <button
+          mat-button
+          [routerLink]="['/meets/' + meet._id]"
+          class="register-button"
+          *ngIf="onResults"
+        >
+          Info
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="page-section">
+    <router-outlet></router-outlet>
+  </div>
+</div>

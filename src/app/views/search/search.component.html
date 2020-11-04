@@ -1,0 +1,58 @@
+<div class="page-section top" fxLayout="row wrap">
+  <!-- <h1 class="letter-spacing-1 text-uppercase fw-600 m-0" style="padding-bottom: 3.5vw">Search the CPL</h1> -->
+  <div fxFlex="100" fxLayoutAlign="">
+    <!-- <form fxFlex fxLayout="row wrap" [formGroup]="searchForm" id="search-page-form">
+      <div fxLayout="row" fxFlex="100">
+        <mat-form-field
+        fxFlex
+        style="margin: 8px; padding: 8px; background-color: white;"
+      >
+        <input
+          matInput
+          name="search"
+          placeholder="Search the CPL"
+          formControlName="search"
+        />
+      </mat-form-field>
+      </div>
+    </form> -->
+    <form fxFlex fxLayout="row wrap" class="sort-form" [formGroup]="searchForm">
+      <div fxLayout="row" fxFlex="100">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+          class="search-page"
+        >
+          <input
+            matInput
+            name="search"
+            placeholder="Search CPL"
+            formControlName="search"
+            [disabled]="true"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="page-section bottom" fxLayout="column wrap" fxLayoutGap="45px">
+  <div
+    *ngFor="
+      let item of searchItems
+        | paginate: { itemsPerPage: 6, currentPage: currentPage }
+    "
+    class="search-item full-width"
+  >
+    <h2 class="letter-spacing-1 text-uppercase fw-600">{{ item }}</h2>
+  </div>
+  <div
+    fxLayout="row"
+    fxFlex="100"
+    fxLayoutAlign="center center"
+    class="products-pagination"
+  >
+    <pagination-controls
+      (pageChange)="currentPage = $event"
+    ></pagination-controls>
+  </div>
+</div>

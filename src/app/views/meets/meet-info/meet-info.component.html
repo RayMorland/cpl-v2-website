@@ -1,0 +1,73 @@
+<div *ngIf="meetReady" fxLayout="row wrap">
+  <!-- Main meet info -->
+  <div fxLayout="column" fxFlex="100">
+    <!-- Dates Info -->
+    <div class="full-width meet-page-section" fxLayout="row">
+      <div fxFlex="100">
+        <h2
+          class="letter-spacing-1 text-uppercase fw-600"
+          style="margin: 0 0 0 0px"
+        >
+          <b
+            >{{ meet.dates[0].start | date: "longDate" }} -
+            {{ meet.dates[meet.dates.length - 1].end | date: "longDate" }}</b
+          >
+        </h2>
+      </div>
+    </div>
+    <!-- Location -->
+    <div class="full-width meet-page-section" fxLayout="row">
+      <div fxFlex="100">
+        <h2 class="letter-spacing-1 text-uppercase fw-600">Location</h2>
+        <mat-list>
+          <mat-list-item>
+            <b>Venue:</b> {{ meet.venue.name }}
+          </mat-list-item>
+          <mat-list-item>
+            <b>Address:</b> {{ meet.venue.location.address.city }},
+            {{ meet.venue.location.address.province }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <!-- Coordinator Info -->
+    <div class="full-width meet-page-section" fxLayout="row">
+      <div fxFlex="100">
+        <h2 class="letter-spacing-1 text-uppercase fw-600">Coordinator</h2>
+        <h3 style="margin: 0">
+          {{ meet.coordinator.name }}
+        </h3>
+      </div>
+    </div>
+    <!-- WeighIn Info -->
+    <div class="full-width meet-page-section" fxLayout="row">
+      <div fxFlex="100">
+        <h2 class="letter-spacing-1 text-uppercase fw-600">Weigh In Info</h2>
+        <mat-list>
+          <mat-list-item>
+            <b>Info:</b> {{ meet.weighInInfo.info }}
+          </mat-list-item>
+          <mat-list-item>
+            <b>Times</b> {{ meet.weighInInfo.times.start | date:'longDate' }} - {{ meet.weighInInfo.times.end | date:'longDate' }}
+          </mat-list-item>
+          <mat-list-item>
+            <b>Venue:</b> {{ meet.weighInInfo.location.name }}
+          </mat-list-item>
+          <mat-list-item>
+            <b>Address:</b> {{ meet.weighInInfo.location.address.city }},
+            {{ meet.weighInInfo.location.address.province }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <!-- Event Info -->
+    <div class="full-width meet-page-section" fxLayout="row">
+      <div fxFlex="100">
+        <h2 class="letter-spacing-1 text-uppercase fw-600">Event Info</h2>
+        <h3 style="margin: 0">Events</h3>
+      </div>
+    </div>
+  </div>
+  <!-- Location Info -->
+  <div fxFlex="100"></div>
+</div>

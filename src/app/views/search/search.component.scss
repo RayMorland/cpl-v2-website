@@ -1,0 +1,65 @@
+#search-page-form {
+    width: 100%;
+}
+
+#search-page-input {
+    height: 3.5vw;
+    width: 100%;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+    border: none;
+    // border-bottom: 5px solid black;
+    font-size: 2.75vw;
+    height: 5vw;
+    font-weight: bold;
+    font-family: "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+#search-page-input::placeholder {
+    color: black;
+}
+
+#search-page-input:focus #search-page-input::placeholder {
+    color: rgba(0,0,0,.5);
+}
+
+.search-item{
+    min-height: 100px;
+    padding: 45px;
+    background-color: white;
+}
+
+.mat-form-field {
+    transition: all .2s !important;
+    background-color: rgba(0,0,0,0) !important;
+    border-bottom: 5px solid black;
+    color: black !important;
+    padding-bottom: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .mat-form-field input::placeholder {
+    color: black !important;
+  }
+
+  .mat-form-field input, .mat-form-field .mat-select-trigger {
+    line-height: 3.5vw;
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 600;
+    font-size: 2.5vw !important;
+  }
+
+  .mat-form-field-label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    letter-spacing: .1em;
+    font-weight: 600;
+    font-size: 2.5vw !important;
+    height: 2vw;
+    text-transform: uppercase;
+    color: black !important;
+  }

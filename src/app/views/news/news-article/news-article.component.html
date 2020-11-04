@@ -1,0 +1,25 @@
+<div *ngIf="articleReady">
+  <div
+    class="full-page-section top-page-section"
+    [style.backgroundImage]="['url(' + article.imagePath + ')']"
+  >
+    <div class="carousel-image-filter"></div>
+    <div class="top-page-section-info">
+      <h1 style="margin:0; font-size: 6vw">{{ article.title }}</h1>
+      <p style="font-size: 20px; margin:0 0 0 10px;"><b>{{ article.creationDate | date: 'longDate' }}</b></p>
+    </div>
+  </div>
+  <div class="page-section" fxLayout="row" style="min-height: 100vh;">
+    <div class="social-links">
+        <button mat-icon-button class="social-button">
+            <mat-icon>share</mat-icon>
+        </button>
+    </div>
+    <div class="article-wrapper" style="padding-left: 10px">
+      <div class="mb-1">
+        <a routerLink="/news">Back to Newss</a>
+    </div>
+    <div [innerHtml]="article.content"></div>
+    </div>
+  </div>
+</div>

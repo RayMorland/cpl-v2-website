@@ -1,0 +1,247 @@
+<div class="page-section" style="padding-bottom: 0">
+  <h1 class="letter-spacing-1 text-uppercase fw-600 m-0">Records</h1>
+</div>
+<div
+  class="page-section"
+  style="padding-bottom: 3.5vw; padding-top: 1.75vw !important"
+>
+  <form fxFlex fxLayout="row wrap" class="sort-form" [formGroup]="filterForm">
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+      <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex="100"
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Level</mat-label>
+          <mat-select formControlName="level">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option *ngFor="let level of levels" [value]="level">
+              {{ level }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option *ngFor="let gender of genders" [value]="gender.name">
+              {{ gender.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+      <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex="100"
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Testing</mat-label>
+          <mat-select formControlName="test">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option *ngFor="let test of tests" [value]="test.type">
+              {{ test.type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Division</mat-label>
+          <mat-select formControlName="division">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option *ngFor="let division of divisions" [value]="division.name">
+              {{ division.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-sm="33.3">
+      <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex="100"
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="50">
+        <mat-form-field
+          fxFlex
+          style="margin: 8px; padding: 8px; background-color: white"
+        >
+          <mat-label>Event</mat-label>
+          <mat-select formControlName="competition">
+            <mat-option [value]="''"> all </mat-option>
+            <mat-option
+              *ngFor="let competition of competitions"
+              [value]="competition.type"
+            >
+              {{ competition.type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div
+  *ngIf="recordsReady && filteredRecords.length > 0"
+  class="page-section"
+  style="padding-top: 0"
+>
+  <mat-accordion
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    class="full-width"
+  >
+    <div
+      fxLayout="row"
+      fxFlex="100"
+      fxLayoutAlign="center center"
+      *ngFor="
+        let recordGroup of filteredRecordGroups
+          | paginate: { itemsPerPage: 6, currentPage: currentPage };
+        let i = index
+      "
+      class="full-width"
+    >
+      <mat-expansion-panel
+        [expanded]="step === 0"
+        (opened)="setStep(0)"
+        hideToggle="false"
+        class="cpl-card"
+        style="border-bottom: solid 1px rgb(236, 236, 236); margin: 8px"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="letter-spacing-1 text-uppercase fw-600 m-0">
+            {{ recordGroup.level }} {{ recordGroup.test }}
+            {{ recordGroup.gender }} {{ recordGroup.division.name }}
+            {{ recordGroup.category }}
+            {{ recordGroup.recordType }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- <a
+          class="record-download-button letter-spacing-1 text-uppercase fw-600 m-0"
+          [routerLink]="['/']"
+          ><h4 style="font-size: 1rem">View Pdf <mat-icon style="font-size: 1rem">get_app</mat-icon></h4></a
+        > -->
+
+        <div
+          *ngFor="let ageClass of recordGroup.ageClasses"
+          style="margin: 30px 0px"
+        >
+          <h4 class="letter-spacing-1 text-uppercase fw-600 m-0" style="font-size: 1rem; margin-bottom: 30px">
+            Age Group: {{ ageClass.ageClass.min }} - {{ ageClass.ageClass.max }}
+          </h4>
+          <ngx-datatable
+            class="material"
+            style="margin: 20px 0px;"
+            [rows]="ageClass.weightClasses"
+            [columnMode]="ColumnMode.flex"
+            [headerHeight]="50"
+            [footerHeight]="0"
+            [scrollbarH]="true"
+            [rowHeight]="auto"
+          >
+            <ngx-datatable-column name="Weight Class" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row?.weightClass.weightRange.min }}kg
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let record of row?.records">
+                  {{ record?.memberId?.personal.firstName }}
+                  {{ record?.memberId?.personal.lastName }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Date" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let record of row?.records">
+                  {{ record.recordDate | date: "longDate" }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Meet" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let record of row?.records">
+                  <a class="link" [routerLink]="['/meets/' + record.meetId + '/results']">View Meet</a>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Lift" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let record of row?.records">
+                  {{ record.liftType }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Weight" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let record of row?.records">
+                  {{ record.weight }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <div
+      fxLayout="row"
+      fxFlex="100"
+      fxLayoutAlign="center center"
+      class="products-pagination"
+    >
+      <pagination-controls
+        (pageChange)="currentPage = $event; scroll()"
+      ></pagination-controls>
+    </div>
+  </mat-accordion>
+</div>
+<div
+  class="full-width page-section"
+  *ngIf="recordsReady && filteredRecords.length == 0"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="20px"
+  style="padding: 100px"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }"
+>
+  <h2 class="letter-spacing-1 text-uppercase fw-600">No Records</h2>
+</div>
+
+<div
+  *ngIf="!recordsReady"
+  class="spinner-wrapper full-width page-section"
+  fxLayoutAlign="center center"
+  style="padding: 100px"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '700ms' } }"
+>
+  <mat-progress-spinner
+    class="example-margin"
+    [color]="warn"
+    [mode]="'indeterminate'"
+    [value]="75"
+  >
+  </mat-progress-spinner>
+</div>
